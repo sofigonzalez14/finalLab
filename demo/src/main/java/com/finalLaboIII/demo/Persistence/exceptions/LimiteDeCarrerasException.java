@@ -1,7 +1,10 @@
 package com.finalLaboIII.demo.Persistence.exceptions;
 
-import lombok.experimental.StandardException;
-
-@StandardException
 public class LimiteDeCarrerasException extends RuntimeException {
+    public LimiteDeCarrerasException() {
+        super();
+    }
+    public LimiteDeCarrerasException(String message) {
+        super(message);
+    }
 }

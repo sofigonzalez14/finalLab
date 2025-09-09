@@ -1,10 +1,12 @@
 package com.finalLaboIII.demo.Controllers;
 
-import com.finalLaboIII.demo.Business.dtos.EstadoAsignaturaDto;
+import com.finalLaboIII.demo.dtos.EstadoAsignaturaDto;
 import com.finalLaboIII.demo.Business.impl.AlumnoBusinessImpl;
 import com.finalLaboIII.demo.Model.Alumno;
+import com.finalLaboIII.demo.dtos.InscripcionCarreraDto;
 import com.finalLaboIII.demo.Persistence.exceptions.AlumnoNoEncontradoException;
 import com.finalLaboIII.demo.Persistence.exceptions.AsignaturaNoEncontradaException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,67 +14,75 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/alumno")
 public class AlumnoController {
 
-    AlumnoBusinessImpl Alumnobsn = new AlumnoBusinessImpl();
+    private final AlumnoBusinessImpl alumnobsn;
 
+    public AlumnoController(AlumnoBusinessImpl alumnobsn) {
+        this.alumnobsn = alumnobsn;
+    }
+
+    // Crear alumno
     @PostMapping
     public ResponseEntity<Integer> crearAlumno(@RequestBody Alumno alumno) {
         if (alumno == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(Alumnobsn.crearAlumno(alumno));
+        return ResponseEntity.status(HttpStatus.CREATED).body(alumnobsn.crearAlumno(alumno));
     }
 
+    // Eliminar alumno
     @DeleteMapping("/{idAlumno}")
     public ResponseEntity<?> eliminarAlumno(@PathVariable Integer idAlumno) {
         try {
-            Alumnobsn.eliminarAlumno(idAlumno);
-        } catch (AlumnoNoEncontradoException a) {
-            return ResponseEntity.badRequest().build();
+            alumnobsn.eliminarAlumno(idAlumno);
+            return ResponseEntity.ok("Alumno eliminado");
+        } catch (AlumnoNoEncontradoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Alumno no encontrado");
         }
-        return ResponseEntity.ok("Alumno eliminado");
     }
 
-    @PutMapping("{idAlumno}")
-    public ResponseEntity<String> ingresarActualizarAlumno(@RequestBody Alumno alumno, @PathVariable Integer idAlumno) {
+    // Actualizar alumno
+    @PutMapping("/{idAlumno}")
+    public ResponseEntity<?> actualizarAlumno(@RequestBody Alumno alumno, @PathVariable Integer idAlumno) {
         try {
-            Alumnobsn.actualizarAlumno(idAlumno, alumno);
-        } catch (AlumnoNoEncontradoException a) {
-            return ResponseEntity.badRequest().build();
+            alumnobsn.actualizarAlumno(idAlumno, alumno);
+            return ResponseEntity.ok("Alumno actualizado correctamente");
+        } catch (AlumnoNoEncontradoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Alumno no encontrado");
         }
-        return ResponseEntity.ok("actualizado correctamente");
     }
-    //inscribir alumno a una carrera
 
-    @PutMapping("/alumno/{idAlumno}")
-    public ResponseEntity<?> incribirAlumno(@PathVariable Integer idAlumno, @RequestBody Integer idCarrera) {
+    // Inscribir alumno en una carrera
+    @PutMapping("/{idAlumno}/inscripcion")
+    public ResponseEntity<?> inscribirAlumno(@PathVariable Integer idAlumno, @RequestBody InscripcionCarreraDto dto) {
         try {
-            Alumnobsn.inscribirAlumno(idAlumno, idCarrera);
-        } catch (AlumnoNoEncontradoException a) {
-            return ResponseEntity.badRequest().build();
+            alumnobsn.inscribirAlumno(idAlumno, dto.getCarreraId());
+            return ResponseEntity.ok("Alumno inscripto correctamente.");
+        } catch (AlumnoNoEncontradoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Alumno no encontrado");
         }
-        return ResponseEntity.ok("alumno inscripto correctamente.");
-
     }
 
-    @PostMapping("/alumno/{idAlumno}/asignatura/")
-    public ResponseEntity<Integer> agregarAsignatura(@PathVariable Integer idAlumno, @RequestBody Integer idMateria) {
+    // Agregar asignatura a un alumno
+    @PostMapping("/{idAlumno}/asignatura")
+    public ResponseEntity<?> agregarAsignatura(@PathVariable Integer idAlumno, @RequestBody Integer idMateria) {
         try {
-            Alumnobsn.agregarAsignatura(idAlumno, idMateria);
-        } catch (AlumnoNoEncontradoException a) {
-            return ResponseEntity.badRequest().build();
+            alumnobsn.agregarAsignatura(idAlumno, idMateria);
+            return ResponseEntity.ok("Asignatura agregada al alumno");
+        } catch (AlumnoNoEncontradoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Alumno no encontrado");
         }
-        return ResponseEntity.ok(idAlumno);
     }
 
-
-    @PutMapping("/alumno/{idAlumno}/asignatura/{idAsignatura}")
-    public ResponseEntity<Integer> modificarEstadoAsignatura (@PathVariable Integer idAlumno, @PathVariable Integer idAsignatura, @RequestBody EstadoAsignaturaDto estadodto){
-        try{
-            Alumnobsn.modificarEstadoAsignatura(idAlumno, idAsignatura, estadodto.getEstado(), estadodto.getNota());
-        }catch (AsignaturaNoEncontradaException a){
-            return ResponseEntity.badRequest().build();
+    // Modificar estado de una asignatura de un alumno
+    @PutMapping("/{idAlumno}/asignatura/{idAsignatura}")
+    public ResponseEntity<?> modificarEstadoAsignatura(@PathVariable Integer idAlumno,
+                                                       @PathVariable Integer idAsignatura,
+                                                       @RequestBody EstadoAsignaturaDto estadoDto) {
+        try {
+            alumnobsn.modificarEstadoAsignatura(idAlumno, idAsignatura, estadoDto.getEstado(), estadoDto.getNota());
+            return ResponseEntity.ok("Asignatura actualizada correctamente");
+        } catch (AsignaturaNoEncontradaException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Asignatura no encontrada");
         }
-        return ResponseEntity.ok(idAsignatura);
     }
-
 }

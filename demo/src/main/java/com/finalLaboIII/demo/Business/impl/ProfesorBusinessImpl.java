@@ -3,12 +3,15 @@ package com.finalLaboIII.demo.Business.impl;
 import com.finalLaboIII.demo.Business.interfaces.ProfesorBusiness;
 import com.finalLaboIII.demo.Model.Profesor;
 import com.finalLaboIII.demo.Persistence.Impl.ProfesorDaoImpl;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProfesorBusinessImpl implements ProfesorBusiness {
-    ProfesorDaoImpl profesorPersistence = new ProfesorDaoImpl();
+
+    private final ProfesorDaoImpl profesorPersistence = new ProfesorDaoImpl();
+
     @Override
     public int crearProfesor(Profesor profesor) {
-
         return profesorPersistence.crearProfesor(profesor);
     }
 
@@ -22,5 +25,8 @@ public class ProfesorBusinessImpl implements ProfesorBusiness {
         return profesorPersistence.obtenerProfesor(nombreProfesor);
     }
 
-
+    @Override
+    public Profesor obtenerProfesorPorId(Integer idProfesor) {
+        return profesorPersistence.obtenerProfesorPorId(idProfesor);
+    }
 }

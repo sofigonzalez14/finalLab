@@ -3,48 +3,71 @@ package com.finalLaboIII.demo.Controllers;
 import com.finalLaboIII.demo.Business.impl.MateriaBusinessImpl;
 import com.finalLaboIII.demo.Model.Materia;
 import com.finalLaboIII.demo.Persistence.exceptions.MateriaNoEncontradaException;
-import com.finalLaboIII.demo.Persistence.exceptions.NohayMateriasException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/materia")
 public class MateriaController {
-    MateriaBusinessImpl materiabsn = new MateriaBusinessImpl();
+
+    private final MateriaBusinessImpl materiabsn;
+
+    public MateriaController(MateriaBusinessImpl materiabsn) {
+        this.materiabsn = materiabsn;
+    }
+
+    // Crear materia
     @PostMapping
-    public ResponseEntity<Integer> crearMateria (@RequestBody Materia materia){
-        if(materia == null){
+    public ResponseEntity<Integer> crearMateria(@RequestBody Materia materia) {
+        if (materia == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(materiabsn.crearMateria(materia));
+        return ResponseEntity.status(HttpStatus.CREATED).body(materiabsn.crearMateria(materia));
     }
 
+    // Eliminar materia
     @DeleteMapping("/{idMateria}")
-    public ResponseEntity<?> eliminarMateria(@PathVariable Integer idMateria){
-        try{
+    public ResponseEntity<?> eliminarMateria(@PathVariable Integer idMateria) {
+        try {
             materiabsn.eliminarMateria(idMateria);
-        }catch(MateriaNoEncontradaException m){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.ok("Materia eliminada");
+        } catch (MateriaNoEncontradaException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Materia no encontrada");
         }
-        return ResponseEntity.ok("Materia eliminada. ");
-    }
-    @GetMapping("{idMateria}/nombre")
-    public ResponseEntity<String> obtenerMateriasbyNombre (@RequestParam String nombre){
-        try{
-            materiabsn.obtenerMateria(nombre);
-        }catch(NohayMateriasException m){
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok("materia: " + nombre);
-    }
-    @PutMapping("/materia/{idMateria}")
-    public ResponseEntity<?> actualizarMateria (@RequestBody Materia materia, @PathVariable Integer idMateria){
-        try{
-            materiabsn.actualizarMateria(idMateria, materia);
-        }catch (MateriaNoEncontradaException m){
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok("Materia actualizada");
     }
 
+    // Obtener materia por ID
+    @GetMapping("/{idMateria}")
+    public ResponseEntity<?> obtenerMateriaPorId(@PathVariable Integer idMateria) {
+        try {
+            materiabsn.obtenerMateriaPorId(idMateria); // luego lo implementamos en Business
+            return ResponseEntity.ok("Materia encontrada con ID: " + idMateria);
+        } catch (MateriaNoEncontradaException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Materia no encontrada");
+        }
+    }
+
+    // Obtener materia por nombre
+    @GetMapping
+    public ResponseEntity<?> obtenerMateriaPorNombre(@RequestParam String nombre) {
+        try {
+            materiabsn.obtenerMateria(nombre); // luego arreglamos en Business
+            return ResponseEntity.ok("Materia encontrada: " + nombre);
+        } catch (MateriaNoEncontradaException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Materia no encontrada");
+        }
+    }
+
+    // Actualizar materia
+    @PutMapping("/{idMateria}")
+    public ResponseEntity<?> actualizarMateria(@PathVariable Integer idMateria, @RequestBody Materia materia) {
+        try {
+            materiabsn.actualizarMateria(idMateria, materia);
+            return ResponseEntity.ok("Materia actualizada correctamente");
+        } catch (MateriaNoEncontradaException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Materia no encontrada");
+        }
+    }
 }
+

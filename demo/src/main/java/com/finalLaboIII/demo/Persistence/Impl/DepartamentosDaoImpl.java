@@ -1,19 +1,22 @@
 package com.finalLaboIII.demo.Persistence.Impl;
 
 import com.finalLaboIII.demo.Model.Departamentos;
-import com.finalLaboIII.demo.Persistence.interfaces.DepartamentosDao;
 import com.finalLaboIII.demo.Persistence.exceptions.DepartamentoNoEncontradoException;
+import com.finalLaboIII.demo.Persistence.interfaces.DepartamentosDao;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@Repository
 public class DepartamentosDaoImpl implements DepartamentosDao {
-    public Map<Integer, Departamentos> listaDepartamentos = new HashMap<>();
-    public static int idContador = 0;
-    public int getIdContador(){
 
+    public static Map<Integer, Departamentos> listaDepartamentos = new HashMap<>();
+    private static int idContador = 1; // arrancamos en 1
+
+    private int getIdContador() {
         return idContador++;
     }
+
     @Override
     public int crearDepartamento(Departamentos departamentos) {
         int id = getIdContador();
@@ -25,8 +28,8 @@ public class DepartamentosDaoImpl implements DepartamentosDao {
 
     @Override
     public void eliminarDepartamento(Integer idDepartamento) {
-        if(!listaDepartamentos.containsKey(idDepartamento)){
-            throw new DepartamentoNoEncontradoException();
+        if (!listaDepartamentos.containsKey(idDepartamento)) {
+            throw new DepartamentoNoEncontradoException("Departamento no encontrado con id " + idDepartamento);
         }
         listaDepartamentos.remove(idDepartamento);
     }
@@ -34,13 +37,19 @@ public class DepartamentosDaoImpl implements DepartamentosDao {
     @Override
     public Departamentos buscarDepartamentobyNombre(String nombreDpto) {
         for (Departamentos departamentos : listaDepartamentos.values()) {
-            if (departamentos.getNombre().equals(nombreDpto)) {
+            if (departamentos.getNombre().equalsIgnoreCase(nombreDpto)) {
                 return departamentos;
             }
         }
-        throw new DepartamentoNoEncontradoException();
-
+        throw new DepartamentoNoEncontradoException("No existe departamento con nombre " + nombreDpto);
     }
 
-
+    @Override
+    public Departamentos buscarDepartamentobyId(Integer idDepartamento) {
+        Departamentos departamento = listaDepartamentos.get(idDepartamento);
+        if (departamento == null) {
+            throw new DepartamentoNoEncontradoException("Departamento no encontrado con id " + idDepartamento);
+        }
+        return departamento;
+    }
 }

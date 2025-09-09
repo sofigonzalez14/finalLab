@@ -1,7 +1,10 @@
 package com.finalLaboIII.demo.Persistence.exceptions;
 
-import lombok.experimental.StandardException;
-
-@StandardException
-public class ProfesorNoEncontradoException extends RuntimeException{
+public class ProfesorNoEncontradoException extends RuntimeException {
+    public ProfesorNoEncontradoException() {
+        super();
+    }
+    public ProfesorNoEncontradoException(String message) {
+        super(message);
+    }
 }

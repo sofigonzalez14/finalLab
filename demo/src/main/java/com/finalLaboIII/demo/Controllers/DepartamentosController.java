@@ -1,42 +1,62 @@
 package com.finalLaboIII.demo.Controllers;
 
 import com.finalLaboIII.demo.Business.impl.DepartamentosBusinessImpl;
-import com.finalLaboIII.demo.Model.Alumno;
 import com.finalLaboIII.demo.Model.Departamentos;
-import com.finalLaboIII.demo.Persistence.exceptions.AlumnoNoEncontradoException;
 import com.finalLaboIII.demo.Persistence.exceptions.DepartamentoNoEncontradoException;
-import com.finalLaboIII.demo.Persistence.exceptions.NohayMateriasException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/departamento")
 public class DepartamentosController {
-    DepartamentosBusinessImpl departamentobsn = new DepartamentosBusinessImpl();
+
+    private final DepartamentosBusinessImpl departamentobsn;
+
+    public DepartamentosController(DepartamentosBusinessImpl departamentobsn) {
+        this.departamentobsn = departamentobsn;
+    }
+
+    // Crear departamento
     @PostMapping
     public ResponseEntity<Integer> crearDepto(@RequestBody Departamentos departamentos) {
         if (departamentos == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(departamentobsn.crearDepartamento(departamentos));
+        return ResponseEntity.status(HttpStatus.CREATED).body(departamentobsn.crearDepartamento(departamentos));
     }
 
+    // Eliminar departamento
     @DeleteMapping("/{idDepartamento}")
-    public ResponseEntity<?> eliminarDepartamento (@PathVariable Integer idDepartamento) {
-        try{
+    public ResponseEntity<?> eliminarDepartamento(@PathVariable Integer idDepartamento) {
+        try {
             departamentobsn.eliminarDepartamento(idDepartamento);
-        }catch (DepartamentoNoEncontradoException d){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.ok("Departamento eliminado");
+        } catch (DepartamentoNoEncontradoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Departamento no encontrado");
         }
-        return ResponseEntity.ok("Departamento eliminado");
     }
+
+    // Obtener departamento por ID
     @GetMapping("/{idDepartamento}")
-    public ResponseEntity<String> buscarDeptobyNombre (@RequestParam String nombreDpto){
-        try{
-            departamentobsn.buscarDepartamentobyNombre(nombreDpto);
-        }catch(DepartamentoNoEncontradoException m){
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> buscarDeptoPorId(@PathVariable Integer idDepartamento) {
+        try {
+            departamentobsn.buscarDepartamentobyId(idDepartamento); // lo implementaremos en Business
+            return ResponseEntity.ok("Departamento encontrado con ID: " + idDepartamento);
+        } catch (DepartamentoNoEncontradoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Departamento no encontrado");
         }
-        return ResponseEntity.ok("departamento: " + nombreDpto);
+    }
+
+    // Obtener departamento por nombre
+    @GetMapping
+    public ResponseEntity<?> buscarDeptoPorNombre(@RequestParam String nombreDpto) {
+        try {
+            departamentobsn.buscarDepartamentobyNombre(nombreDpto); // lo implementaremos en Business
+            return ResponseEntity.ok("Departamento encontrado: " + nombreDpto);
+        } catch (DepartamentoNoEncontradoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Departamento no encontrado");
+        }
     }
 }
+

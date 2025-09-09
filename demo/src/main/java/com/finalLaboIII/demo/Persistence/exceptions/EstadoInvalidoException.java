@@ -1,7 +1,10 @@
 package com.finalLaboIII.demo.Persistence.exceptions;
 
-import lombok.experimental.StandardException;
-
-@StandardException
 public class EstadoInvalidoException extends RuntimeException {
+    public EstadoInvalidoException() {
+        super();
+    }
+    public EstadoInvalidoException(String message) {
+        super(message);
+    }
 }

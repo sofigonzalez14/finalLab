@@ -3,9 +3,13 @@ package com.finalLaboIII.demo.Business.impl;
 import com.finalLaboIII.demo.Business.interfaces.DepartamentosBusiness;
 import com.finalLaboIII.demo.Model.Departamentos;
 import com.finalLaboIII.demo.Persistence.Impl.DepartamentosDaoImpl;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DepartamentosBusinessImpl implements DepartamentosBusiness {
-    DepartamentosDaoImpl departamentoPersistence = new DepartamentosDaoImpl();
+
+    private final DepartamentosDaoImpl departamentoPersistence = new DepartamentosDaoImpl();
+
     @Override
     public int crearDepartamento(Departamentos departamentos) {
         return departamentoPersistence.crearDepartamento(departamentos);
@@ -21,5 +25,8 @@ public class DepartamentosBusinessImpl implements DepartamentosBusiness {
         return departamentoPersistence.buscarDepartamentobyNombre(nombreDpto);
     }
 
-
+    @Override
+    public Departamentos buscarDepartamentobyId(Integer idDepartamento) {
+        return departamentoPersistence.buscarDepartamentobyId(idDepartamento);
+    }
 }

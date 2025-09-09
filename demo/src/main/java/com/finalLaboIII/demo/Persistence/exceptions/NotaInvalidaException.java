@@ -1,8 +1,10 @@
 package com.finalLaboIII.demo.Persistence.exceptions;
 
-import lombok.experimental.StandardException;
-
-@StandardException
-public class NotaInvalidaException extends RuntimeException{
-
+public class NotaInvalidaException extends RuntimeException {
+    public NotaInvalidaException() {
+        super();
+    }
+    public NotaInvalidaException(String message) {
+        super(message);
+    }
 }

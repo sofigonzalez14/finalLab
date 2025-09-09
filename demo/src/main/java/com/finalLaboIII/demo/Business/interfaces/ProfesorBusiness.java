@@ -3,7 +3,8 @@ package com.finalLaboIII.demo.Business.interfaces;
 import com.finalLaboIII.demo.Model.Profesor;
 
 public interface ProfesorBusiness {
-    public int crearProfesor(Profesor profesor);
-    public void eliminarProfesor (Integer idProfesor);
-    public Profesor obtenerProfesor (String nombreProfesor);
+    int crearProfesor(Profesor profesor);
+    void eliminarProfesor(Integer idProfesor);
+    Profesor obtenerProfesor(String nombreProfesor);   // buscar por nombre
+    Profesor obtenerProfesorPorId(Integer idProfesor); // buscar por ID (nuevo)
 }

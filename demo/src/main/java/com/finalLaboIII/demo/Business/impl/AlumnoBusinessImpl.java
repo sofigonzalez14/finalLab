@@ -4,9 +4,12 @@ import com.finalLaboIII.demo.Business.interfaces.AlumnoBusiness;
 import com.finalLaboIII.demo.Model.Alumno;
 import com.finalLaboIII.demo.Model.Asignatura;
 import com.finalLaboIII.demo.Persistence.Impl.AlumnoDaoImpl;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AlumnoBusinessImpl implements AlumnoBusiness {
-AlumnoDaoImpl alumnoPersistence = new AlumnoDaoImpl();
+
+    private final AlumnoDaoImpl alumnoPersistence = new AlumnoDaoImpl();
 
     @Override
     public int crearAlumno(Alumno alumno) {
@@ -19,9 +22,14 @@ AlumnoDaoImpl alumnoPersistence = new AlumnoDaoImpl();
     }
 
     @Override
-    public void actualizarAlumno(int IdAlumno, Alumno alumno) {
+    public void actualizarAlumno(int idAlumno, Alumno alumno) {
+        alumnoPersistence.actualizarAlumno(idAlumno, alumno);
+    }
 
-        alumnoPersistence.actualizarAlumno(IdAlumno, alumno);
+    @Override
+    public Alumno obtenerAlumno(Integer idAlumno) {
+        // delega directamente a la DAO
+        return alumnoPersistence.obtenerAlumno(idAlumno);
     }
 
     @Override
@@ -35,9 +43,8 @@ AlumnoDaoImpl alumnoPersistence = new AlumnoDaoImpl();
     }
 
     @Override
-    public void modificarEstadoAsignatura(Integer idAlumno, Integer idAsignatura, Asignatura.EstadoAsignatura estado, Integer nota) {
+    public void modificarEstadoAsignatura(Integer idAlumno, Integer idAsignatura,
+                                          Asignatura.EstadoAsignatura estado, Integer nota) {
         alumnoPersistence.modificarEstadoAsignatura(idAlumno, idAsignatura, estado, nota);
     }
-
-
 }

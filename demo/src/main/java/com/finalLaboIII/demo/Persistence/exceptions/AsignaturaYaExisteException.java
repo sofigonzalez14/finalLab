@@ -1,7 +1,10 @@
 package com.finalLaboIII.demo.Persistence.exceptions;
 
-import lombok.experimental.StandardException;
-
-@StandardException
-public class AsignaturaYaExisteException extends RuntimeException{
+public class AsignaturaYaExisteException extends RuntimeException {
+    public AsignaturaYaExisteException() {
+        super();
+    }
+    public AsignaturaYaExisteException(String message) {
+        super(message);
+    }
 }
