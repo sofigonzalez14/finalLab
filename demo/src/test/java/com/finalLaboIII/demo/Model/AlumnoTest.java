@@ -1,33 +1,46 @@
 package com.finalLaboIII.demo.Model;
-import com.finalLaboIII.demo.Model.Materia;
-import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class AlumnoTest {
-    private static Alumno alumno;
-    private static Materia m1;
-    private static Materia m2;
-    private static Materia m3;
-    private static Materia m4;
-    private static Profesor profesor;
 
-
-
-    @BeforeAll
-    public static void setUp() {
-        Profesor profesor1 = new Profesor("Luciano", "Salotto", "Lic.");
-        m1 = new Materia("Laboratorio 3", 1, profesor1);
-        m2 = new Materia("Laboratorio 1", 1, profesor1);
-
-
-    }
     @Test
-    public void testNewAlumno() {
-        Alumno alumno1 = new Alumno("sofia", "gonzalez", 44518848);
-        assertEquals("sofia", alumno1.getNombre());
-        assertEquals("gonzalez", alumno1.getApellido());
-        assertEquals(44518848, alumno1.getDni());
+    public void testConstructorConParametros() {
+        Alumno alumno = new Alumno("Martina", "Lopez", 50123456);
+
+        assertEquals("Martina", alumno.getNombre());
+        assertEquals("Lopez", alumno.getApellido());
+        assertEquals(50123456, alumno.getDni());
     }
 
+    @Test
+    public void testSettersAndGetters() {
+        Alumno alumno = new Alumno();
+        alumno.setNombre("Valentin");
+        alumno.setApellido("Perez");
+        alumno.setDni(48999111);
+
+        assertEquals("Valentin", alumno.getNombre());
+        assertEquals("Perez", alumno.getApellido());
+        assertEquals(48999111, alumno.getDni());
+    }
+
+    @Test
+    public void testColeccionesInicializadas() {
+        Alumno alumno = new Alumno();
+
+        // Al crearse debe tener las colecciones vacías pero no nulas
+        assertNotNull(alumno.getListaCarrerasInscriptas());
+        assertNotNull(alumno.getListaAsignatura());
+
+        // Probar que puedo agregar datos
+        alumno.getListaCarrerasInscriptas().add(10);
+        alumno.getListaAsignatura().put(101, new Asignatura(101, Asignatura.EstadoAsignatura.APROBADA, 9));
+
+        assertTrue(alumno.getListaCarrerasInscriptas().contains(10));
+        assertEquals(1, alumno.getListaAsignatura().size());
+        assertEquals(9, alumno.getListaAsignatura().get(101).getNota());
+    }
 }

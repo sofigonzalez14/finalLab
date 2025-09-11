@@ -15,7 +15,7 @@ public class AlumnoDaoImpl implements AlumnoDao {
     private static final Logger logger = LoggerFactory.getLogger(AlumnoDao.class);
 
     public static Map<Integer, Alumno> listaAlumno = new HashMap<>();
-    private static int idContador = 0;
+    private static int idContador = 1;
 
     private int getIdContador() {
         return idContador++;
