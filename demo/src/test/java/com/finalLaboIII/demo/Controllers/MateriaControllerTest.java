@@ -29,8 +29,8 @@ class MateriaControllerTest {
 
     @Test
     void testCrearMateria() throws Exception {
-        Profesor profesor = new Profesor("Sofia", "Gomez", "Ing.");
-        Materia materia = new Materia("Laboratorio", 2, profesor);
+        Profesor profesor = new Profesor("Sofia", "Gomez", "Ing.", 1);
+        Materia materia = new Materia("Laboratorio", 2, profesor, 1);
 
         when(materiaBusiness.crearMateria(any(Materia.class))).thenReturn(1);
 
@@ -38,9 +38,13 @@ class MateriaControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(materia)))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("1"));
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.nombreMateria").value("Laboratorio"));
 
         verify(materiaBusiness, times(1)).crearMateria(any(Materia.class));
     }
+
+
+
 }
 

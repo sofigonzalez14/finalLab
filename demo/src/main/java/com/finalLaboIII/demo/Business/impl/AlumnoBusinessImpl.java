@@ -6,15 +6,23 @@ import com.finalLaboIII.demo.Model.Asignatura;
 import com.finalLaboIII.demo.Persistence.Impl.AlumnoDaoImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AlumnoBusinessImpl implements AlumnoBusiness {
 
     private final AlumnoDaoImpl alumnoPersistence = new AlumnoDaoImpl();
 
     @Override
-    public int crearAlumno(Alumno alumno) {
+    public Alumno crearAlumno(Alumno alumno) {
         return alumnoPersistence.crearAlumno(alumno);
     }
+
+    @Override
+    public List<Alumno> listarAlumnos() {
+        return alumnoPersistence.listarAlumnos();
+    }
+
 
     @Override
     public void eliminarAlumno(Integer idAlumno) {

@@ -38,18 +38,23 @@ class AlumnoControllerTest {
 
     @Test
     void testCrearAlumno() throws Exception {
-        Alumno alumno = new Alumno("Juan", "Pérez", 12345678);
+        Alumno alumno = new Alumno("Juan", "Perez", 12345678);
+        alumno.setId(1); // simulamos que se guardó con ID 1
 
-        when(alumnoBusiness.crearAlumno(any(Alumno.class))).thenReturn(1);
+        when(alumnoBusiness.crearAlumno(any())).thenReturn(alumno);
 
         mockMvc.perform(post("/alumno")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(alumno)))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("1"));
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.nombre").value("Juan"))
+                .andExpect(jsonPath("$.apellido").value("Perez"))
+                .andExpect(jsonPath("$.dni").value(12345678));
 
         verify(alumnoBusiness, times(1)).crearAlumno(any(Alumno.class));
     }
+
 
     @Test
     void testEliminarAlumnoOk() throws Exception {

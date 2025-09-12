@@ -7,8 +7,8 @@ public class MateriaTest {
 
     @Test
     void testConstructorAndGetters() {
-        Profesor profesor = new Profesor("Ana", "Martinez", "Lic.");
-        Materia materia = new Materia("Programación", 2, profesor);
+        Profesor profesor = new Profesor("Ana", "Martinez", "Lic.",1);
+        Materia materia = new Materia("Programación", 2, profesor,1);
 
         assertEquals("Programación", materia.getNombreMateria());
         assertEquals(2, materia.getCantCuatrimestre());
@@ -17,7 +17,7 @@ public class MateriaTest {
 
     @Test
     void testSetters() {
-        Profesor profesor = new Profesor("Juan", "Lopez", "Dr.");
+        Profesor profesor = new Profesor("Juan", "Lopez", "Dr.",2);
         Materia materia = new Materia();
         materia.setNombreMateria("Matemática");
         materia.setCantCuatrimestre(3);

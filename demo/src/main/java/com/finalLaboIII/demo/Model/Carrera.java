@@ -12,14 +12,19 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Carrera {
+    private Integer id;
     private String nombre;
-    private int cantidadCuatrimestre;
+    private int cantidadMaterias;
     private int idDepartamento;
+    private int duracionAnios;
+
     private Map<Integer, Materia> materiaList;
 
-    public Carrera(String nombre, int cantidadCuatrimestre, int idDepartamento) {
+    public Carrera(String nombre, int cantidadMaterias, int idDepartamento, int duracionAnios) {
         this.nombre = nombre;
-        this.cantidadCuatrimestre = cantidadCuatrimestre;
+        this.cantidadMaterias = cantidadMaterias;
         this.idDepartamento = idDepartamento;
+        this.duracionAnios = duracionAnios;
     }
 }
+

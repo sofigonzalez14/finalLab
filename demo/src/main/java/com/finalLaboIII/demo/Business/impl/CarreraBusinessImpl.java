@@ -4,6 +4,7 @@ import com.finalLaboIII.demo.Business.interfaces.CarreraBusiness;
 import com.finalLaboIII.demo.Model.Carrera;
 import com.finalLaboIII.demo.Model.Materia;
 import com.finalLaboIII.demo.Persistence.Impl.CarreraDaoImpl;
+import com.finalLaboIII.demo.Persistence.interfaces.CarreraDao;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +25,18 @@ public class CarreraBusinessImpl implements CarreraBusiness {
     }
 
     @Override
+    public List<Carrera> listarTodas() {
+        return carreraPersistence.listarCarreras();  // ✅ usando la instancia
+    }
+
+    @Override
     public List<Materia> obtenerMateria_Carrera(Integer idCarrera) {
         return carreraPersistence.obtenerMateria_Carrera(idCarrera);
+    }
+
+    @Override
+    public Carrera obtenerCarrera(Integer idCarrera) {
+        return carreraPersistence.obtenerCarrera(idCarrera);
     }
 
     @Override
@@ -37,5 +48,7 @@ public class CarreraBusinessImpl implements CarreraBusiness {
     public void actualizarCarrera(int idCarrera, Carrera carrera) {
         carreraPersistence.actualizarCarrera(idCarrera, carrera);
     }
+
+
 }
 

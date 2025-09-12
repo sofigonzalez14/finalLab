@@ -8,7 +8,9 @@ import java.util.List;
 public interface CarreraDao {
     void eliminarCarrera(Integer idCarrera);
     int crearCarrera(Carrera carrera);
-    List<Materia> obtenerMateria_Carrera(Integer idCarrera);   // ahora devuelve lista
-    List<Carrera> obtenerCarrera_Departamento(Integer idDepartamento); // ahora devuelve lista
+    Carrera obtenerCarrera(Integer idCarrera);
+    List<Carrera> listarCarreras();
+    List<Materia> obtenerMateria_Carrera(Integer idCarrera);
+    List<Carrera> obtenerCarrera_Departamento(Integer idDepartamento);
     void actualizarCarrera(int idCarrera, Carrera carrera);
 }

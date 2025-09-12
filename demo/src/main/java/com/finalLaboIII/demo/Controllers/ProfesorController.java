@@ -21,9 +21,14 @@ public class ProfesorController {
     @PostMapping
     public ResponseEntity<?> crearProfesor(@RequestBody Profesor profesor) {
         if (profesor == null) {
-            return ResponseEntity.badRequest().body("Datos inválidos");
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(profesorbsn.crearProfesor(profesor));
+
+        int id = profesorbsn.crearProfesor(profesor); // el DAO te devuelve el id
+        profesor.setId(id);
+
+        String mensaje = "Profesor creado con éxito. ID = " + id;
+        return ResponseEntity.status(HttpStatus.CREATED).body(mensaje);
     }
 
     // Eliminar profesor por ID
@@ -41,12 +46,13 @@ public class ProfesorController {
     @GetMapping("/{idProfesor}")
     public ResponseEntity<?> obtenerProfesorPorId(@PathVariable Integer idProfesor) {
         try {
-            profesorbsn.obtenerProfesorPorId(idProfesor); // lo implementaremos en Business
-            return ResponseEntity.ok("Profesor encontrado con ID: " + idProfesor);
+            Profesor profesor = profesorbsn.obtenerProfesorPorId(idProfesor);
+            return ResponseEntity.ok(profesor);
         } catch (ProfesorNoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Profesor no encontrado");
         }
     }
+
 
     // Obtener profesor por nombre
     @GetMapping

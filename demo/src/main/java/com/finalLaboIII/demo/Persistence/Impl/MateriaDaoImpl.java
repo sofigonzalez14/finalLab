@@ -17,16 +17,15 @@ public class MateriaDaoImpl implements MateriaDao {
         return idContador++;
     }
 
+
     @Override
     public int crearMateria(Materia materia) {
         int id = getIdContador();
-        Materia m = new Materia();
-        m.setNombreMateria(materia.getNombreMateria());
-        m.setProfesor(materia.getProfesor());
-        m.setCantCuatrimestre(materia.getCantCuatrimestre());
-        listaMaterias.put(id, m);
+        materia.setId(id);
+        listaMaterias.put(id, materia);
         return id;
     }
+
 
     @Override
     public void actualizarMateria(int idMateria, Materia materia) {

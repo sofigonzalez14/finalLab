@@ -20,7 +20,7 @@ class ProfesorDaoImplTest {
 
     @Test
     void testCrearProfesor() {
-        Profesor profesor = new Profesor("Laura", "Martínez", "Licenciada");
+        Profesor profesor = new Profesor("Laura", "Martínez", "Licenciada",1);
         int id = profesorDao.crearProfesor(profesor);
 
         assertNotNull(ProfesorDaoImpl.listaProfesores.get(id));
@@ -29,7 +29,7 @@ class ProfesorDaoImplTest {
 
     @Test
     void testEliminarProfesorExistente() {
-        Profesor profesor = new Profesor("Juan", "Gómez", "Doctor");
+        Profesor profesor = new Profesor("Juan", "Gómez", "Doctor",2);
         int id = profesorDao.crearProfesor(profesor);
 
         profesorDao.eliminarProfesor(id);
@@ -44,7 +44,7 @@ class ProfesorDaoImplTest {
 
     @Test
     void testObtenerProfesorPorNombre() {
-        Profesor profesor = new Profesor("Ana", "Sosa", "Ingeniera");
+        Profesor profesor = new Profesor("Ana", "Sosa", "Ingeniera",1);
         profesorDao.crearProfesor(profesor);
 
         Profesor encontrado = profesorDao.obtenerProfesor("Ana");
@@ -53,7 +53,7 @@ class ProfesorDaoImplTest {
 
     @Test
     void testObtenerProfesorPorId() {
-        Profesor profesor = new Profesor("Pedro", "Fernández", "Arquitecto");
+        Profesor profesor = new Profesor("Pedro", "Fernández", "Arquitecto",2);
         int id = profesorDao.crearProfesor(profesor);
 
         Profesor encontrado = profesorDao.obtenerProfesorPorId(id);

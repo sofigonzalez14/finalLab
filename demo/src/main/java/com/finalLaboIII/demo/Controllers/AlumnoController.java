@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/alumno")
 public class AlumnoController {
@@ -22,11 +24,28 @@ public class AlumnoController {
 
     // Crear alumno
     @PostMapping
-    public ResponseEntity<Integer> crearAlumno(@RequestBody Alumno alumno) {
+    public ResponseEntity<Alumno> crearAlumno(@RequestBody Alumno alumno) {
         if (alumno == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(alumnobsn.crearAlumno(alumno));
+        Alumno nuevoAlumno = alumnobsn.crearAlumno(alumno);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoAlumno);
+    }
+    // Obtener todos los alumnos
+    @GetMapping
+    public ResponseEntity<List<Alumno>> obtenerTodos() {
+        return ResponseEntity.ok(alumnobsn.listarAlumnos());
+    }
+
+    // Obtener alumno por id
+    @GetMapping("/{idAlumno}")
+    public ResponseEntity<?> obtenerPorId(@PathVariable Integer idAlumno) {
+        try {
+            Alumno alumno = alumnobsn.obtenerAlumno(idAlumno);
+            return ResponseEntity.ok(alumno);
+        } catch (AlumnoNoEncontradoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Alumno no encontrado");
+        }
     }
 
     // Eliminar alumno

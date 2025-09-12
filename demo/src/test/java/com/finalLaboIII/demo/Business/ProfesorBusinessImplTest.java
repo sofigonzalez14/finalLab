@@ -43,7 +43,7 @@ class ProfesorBusinessImplTest {
 
     @Test
     void testCrearProfesorDelegadoAlDao() {
-        Profesor profesor = new Profesor("Luis", "Méndez", "Doctor");
+        Profesor profesor = new Profesor("Luis", "Méndez", "Doctor",1);
         when(profesorDaoMock.crearProfesor(profesor)).thenReturn(1);
 
         int id = profesorBusiness.crearProfesor(profesor);

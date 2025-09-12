@@ -3,8 +3,11 @@ package com.finalLaboIII.demo.Business.interfaces;
 import com.finalLaboIII.demo.Model.Alumno;
 import com.finalLaboIII.demo.Model.Asignatura;
 
+import java.util.List;
+
 public interface AlumnoBusiness {
-    int crearAlumno(Alumno alumno);
+    Alumno crearAlumno(Alumno alumno);
+    List<Alumno> listarAlumnos();
     Alumno obtenerAlumno(Integer idAlumno);
     void eliminarAlumno(Integer idAlumno);
     void actualizarAlumno(int idAlumno, Alumno alumno);

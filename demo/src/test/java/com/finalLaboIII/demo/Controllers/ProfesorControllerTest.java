@@ -26,15 +26,18 @@ class ProfesorControllerTest {
 
     @Test
     void testCrearProfesor() throws Exception {
-        Profesor profesor = new Profesor("Mario", "Rossi", "Doctor");
-        when(profesorBusiness.crearProfesor(Mockito.any(Profesor.class))).thenReturn(1);
+        Profesor profesor = new Profesor("Mario", "Rossi", "Doctor", 1);
+
+        when(profesorBusiness.crearProfesor(any(Profesor.class))).thenReturn(1);
 
         mockMvc.perform(post("/profesor")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nombre\":\"Mario\",\"apellido\":\"Rossi\",\"titulo\":\"Doctor\"}"))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("1"));
+                .andExpect(content().string("Profesor creado con éxito. ID = 1"));
     }
+
+
 
     @Test
     void testEliminarProfesorNotFound() throws Exception {

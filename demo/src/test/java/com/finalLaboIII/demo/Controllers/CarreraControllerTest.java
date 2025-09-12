@@ -28,7 +28,7 @@ class CarreraControllerTest {
 
     @Test
     void testCrearCarrera() throws Exception {
-        CarreraDto dto = new CarreraDto("Ingeniería", 10, 1);
+        CarreraDto dto = new CarreraDto("Ingeniería", 10, 5, 1);
 
         when(carreraBusiness.crearCarrera(any())).thenReturn(1);
 

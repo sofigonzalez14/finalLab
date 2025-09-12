@@ -13,4 +13,6 @@ public class Materia {
     private String nombreMateria;
     private int cantCuatrimestre;
     private Profesor profesor;
+    private int id;
+
 }

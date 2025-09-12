@@ -18,12 +18,12 @@ class MateriaDaoImplTest {
     void setUp() {
         materiaDao = new MateriaDaoImpl();
         MateriaDaoImpl.listaMaterias.clear();
-        profesor = new Profesor("Laura", "Perez", "Ing.");
+        profesor = new Profesor("Laura", "Perez", "Ing.",1);
     }
 
     @Test
     void testCrearMateria() {
-        Materia materia = new Materia("Algoritmos", 1, profesor);
+        Materia materia = new Materia("Algoritmos", 1, profesor,1);
         int id = materiaDao.crearMateria(materia);
 
         assertTrue(MateriaDaoImpl.listaMaterias.containsKey(id));
@@ -32,7 +32,7 @@ class MateriaDaoImplTest {
 
     @Test
     void testObtenerMateriaPorId() {
-        Materia materia = new Materia("Bases de Datos", 2, profesor);
+        Materia materia = new Materia("Bases de Datos", 2, profesor,2);
         int id = materiaDao.crearMateria(materia);
 
         Materia result = materiaDao.obtenerMateriaPorId(id);
@@ -46,7 +46,7 @@ class MateriaDaoImplTest {
 
     @Test
     void testObtenerMateriaPorNombre() {
-        materiaDao.crearMateria(new Materia("Redes", 3, profesor));
+        materiaDao.crearMateria(new Materia("Redes", 3, profesor,3));
         Materia result = materiaDao.obtenerMateria("Redes");
 
         assertEquals("Redes", result.getNombreMateria());
@@ -54,8 +54,8 @@ class MateriaDaoImplTest {
 
     @Test
     void testActualizarMateria() {
-        int id = materiaDao.crearMateria(new Materia("Sistemas", 4, profesor));
-        Materia actualizada = new Materia("Sistemas Operativos", 4, profesor);
+        int id = materiaDao.crearMateria(new Materia("Sistemas", 4, profesor,1));
+        Materia actualizada = new Materia("Sistemas Operativos", 4, profesor,2);
 
         materiaDao.actualizarMateria(id, actualizada);
         assertEquals("Sistemas Operativos", MateriaDaoImpl.listaMaterias.get(id).getNombreMateria());
@@ -63,7 +63,7 @@ class MateriaDaoImplTest {
 
     @Test
     void testEliminarMateria() {
-        int id = materiaDao.crearMateria(new Materia("Matemática", 2, profesor));
+        int id = materiaDao.crearMateria(new Materia("Matemática", 2, profesor,3));
         materiaDao.eliminarMateria(id);
 
         assertFalse(MateriaDaoImpl.listaMaterias.containsKey(id));

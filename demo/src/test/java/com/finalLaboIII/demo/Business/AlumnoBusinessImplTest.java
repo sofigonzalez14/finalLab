@@ -19,13 +19,14 @@ class AlumnoBusinessImplTest {
     void setUp() {
         alumnoDao = Mockito.mock(AlumnoDaoImpl.class); // mockeamos la DAO
         alumnoBusiness = new AlumnoBusinessImpl() {
-            // Sobrescribimos el DAO para inyectar el mock
             private final AlumnoDaoImpl mockDao = alumnoDao;
 
             @Override
-            public int crearAlumno(Alumno alumno) {
-                return mockDao.crearAlumno(alumno);
+            public Alumno crearAlumno(Alumno alumno) {
+                mockDao.crearAlumno(alumno);
+                return alumno;
             }
+
 
             @Override
             public void eliminarAlumno(Integer idAlumno) {

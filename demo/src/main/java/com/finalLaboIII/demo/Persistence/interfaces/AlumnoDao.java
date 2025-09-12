@@ -4,7 +4,8 @@ import com.finalLaboIII.demo.Model.Alumno;
 import com.finalLaboIII.demo.Model.Asignatura;
 
 public interface AlumnoDao {
-    int crearAlumno(Alumno alumno);
+    Alumno crearAlumno(Alumno alumno);
+
     void eliminarAlumno(Integer idAlumno);
     void actualizarAlumno(int idAlumno, Alumno alumno);
     Alumno obtenerAlumno(Integer idAlumno);

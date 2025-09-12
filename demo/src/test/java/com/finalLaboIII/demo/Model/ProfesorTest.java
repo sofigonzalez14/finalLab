@@ -7,7 +7,7 @@ class ProfesorTest {
 
     @Test
     void testCrearProfesorConConstructor() {
-        Profesor profesor = new Profesor("María", "López", "Ingeniera");
+        Profesor profesor = new Profesor("María", "López", "Ingeniera",1);
 
         assertEquals("María", profesor.getNombre());
         assertEquals("López", profesor.getApellido());

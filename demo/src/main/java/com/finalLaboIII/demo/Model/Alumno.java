@@ -13,6 +13,8 @@ import java.util.*;
 @NoArgsConstructor
 public class Alumno {
 
+    private Integer id;
+
     private String nombre;
     private String apellido;
     private int dni;
@@ -23,10 +25,11 @@ public class Alumno {
     // materias inscriptas (idMateria -> Asignatura)
     private Map<Integer, Asignatura> listaAsignatura = new HashMap<>();
 
-    // constructor específico que se usa en DAO
+    // constructor específico que se usa en DAO (sin id)
     public Alumno(String nombre, String apellido, int dni) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
     }
 }
+

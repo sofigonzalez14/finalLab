@@ -18,8 +18,9 @@ public class CarreraBusinessImplTest {
 
     @Test
     void testCrearCarrera() {
-        Carrera carrera = new Carrera("Ingeniería", 8, 1);
-        int id = carreraBusiness.crearCarrera(carrera);
+        Carrera carrera = new Carrera("Ingeniería", 8, 1, 5);
+
+    int id = carreraBusiness.crearCarrera(carrera);
 
         assertTrue(id > 0);
         assertNotNull(carreraBusiness.obtenerCarrera_Departamento(1));

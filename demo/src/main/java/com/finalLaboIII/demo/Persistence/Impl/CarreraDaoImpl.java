@@ -29,17 +29,38 @@ public class CarreraDaoImpl implements CarreraDao {
         listaCarreras.remove(idCarrera);
         logger.info("Carrera eliminada. Lista actual: " + listaCarreras);
     }
-
     @Override
     public int crearCarrera(Carrera carrera) {
         int id = getIdContador();
-        Carrera c = new Carrera(carrera.getNombre(),
-                carrera.getCantidadCuatrimestre(),
-                carrera.getIdDepartamento());
+
+        Carrera c = new Carrera(
+                carrera.getNombre(),
+                carrera.getCantidadMaterias(),
+                carrera.getIdDepartamento(),
+                carrera.getDuracionAnios()
+        );
+
+        c.setId(id);
         c.setMateriaList(carrera.getMateriaList());
+
         listaCarreras.put(id, c);
         return id;
     }
+
+    @Override
+    public List<Carrera> listarCarreras() {
+        return new ArrayList<>(listaCarreras.values());
+    }
+    @Override
+    public Carrera obtenerCarrera(Integer idCarrera) {
+        Carrera carrera = listaCarreras.get(idCarrera);
+        if (carrera == null) {
+            throw new CarreraNoEncontradaException("Carrera no encontrada con ID " + idCarrera);
+        }
+        return carrera;
+    }
+
+
 
     @Override
     public List<Materia> obtenerMateria_Carrera(Integer idCarrera) {

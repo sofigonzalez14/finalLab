@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/materia")
 public class MateriaController {
@@ -17,14 +19,24 @@ public class MateriaController {
         this.materiabsn = materiabsn;
     }
 
-    // Crear materia
     @PostMapping
-    public ResponseEntity<Integer> crearMateria(@RequestBody Materia materia) {
+    public ResponseEntity<?> crearMateria(@RequestBody Materia materia) {
         if (materia == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(materiabsn.crearMateria(materia));
+
+        int id = materiabsn.crearMateria(materia); // DAO genera el id
+        materia.setId(id);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                Map.of(
+                        "id", materia.getId(),
+                        "nombreMateria", materia.getNombreMateria()
+                )
+        );
     }
+
+
 
     // Eliminar materia
     @DeleteMapping("/{idMateria}")
@@ -41,12 +53,19 @@ public class MateriaController {
     @GetMapping("/{idMateria}")
     public ResponseEntity<?> obtenerMateriaPorId(@PathVariable Integer idMateria) {
         try {
-            materiabsn.obtenerMateriaPorId(idMateria); // luego lo implementamos en Business
-            return ResponseEntity.ok("Materia encontrada con ID: " + idMateria);
+            Materia materia = materiabsn.obtenerMateriaPorId(idMateria);
+            return ResponseEntity.ok(
+                    Map.of(
+                            "id", materia.getId(),
+                            "nombreMateria", materia.getNombreMateria()
+                    )
+            );
         } catch (MateriaNoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Materia no encontrada");
         }
     }
+
+
 
     // Obtener materia por nombre
     @GetMapping

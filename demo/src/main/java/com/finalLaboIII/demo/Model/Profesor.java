@@ -13,4 +13,5 @@ public class Profesor {
     private String nombre;
     private String apellido;
     private String titulo;
+    private int id;
 }

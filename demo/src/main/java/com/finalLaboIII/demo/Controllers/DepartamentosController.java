@@ -41,8 +41,8 @@ public class DepartamentosController {
     @GetMapping("/{idDepartamento}")
     public ResponseEntity<?> buscarDeptoPorId(@PathVariable Integer idDepartamento) {
         try {
-            departamentobsn.buscarDepartamentobyId(idDepartamento); // lo implementaremos en Business
-            return ResponseEntity.ok("Departamento encontrado con ID: " + idDepartamento);
+            Departamentos departamento = departamentobsn.buscarDepartamentobyId(idDepartamento);
+            return ResponseEntity.ok(departamento);
         } catch (DepartamentoNoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Departamento no encontrado");
         }

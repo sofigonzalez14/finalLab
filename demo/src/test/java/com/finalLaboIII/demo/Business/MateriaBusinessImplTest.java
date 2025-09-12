@@ -19,8 +19,8 @@ public class MateriaBusinessImplTest {
 
     @Test
     void testCrearMateria() {
-        Profesor profe = new Profesor("Juan", "Pérez", "Ingeniero");
-        Materia materia = new Materia("Programación", 1, profe);
+        Profesor profe = new Profesor("Juan", "Pérez", "Ingeniero",1);
+        Materia materia = new Materia("Programación", 1, profe,2);
 
         int id = materiaBusiness.crearMateria(materia);
 

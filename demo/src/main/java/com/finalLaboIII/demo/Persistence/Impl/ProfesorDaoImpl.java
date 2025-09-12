@@ -20,13 +20,11 @@ public class ProfesorDaoImpl implements ProfesorDao {
     @Override
     public int crearProfesor(Profesor profesor) {
         int id = getIdContador();
-        Profesor p = new Profesor();
-        p.setNombre(profesor.getNombre());
-        p.setApellido(profesor.getApellido());
-        p.setTitulo(profesor.getTitulo());
-        listaProfesores.put(id, p);
+        profesor.setId(id);
+        listaProfesores.put(id, profesor);
         return id;
     }
+
 
     @Override
     public void eliminarProfesor(Integer idProfesor) {

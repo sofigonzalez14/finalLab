@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 @Repository
 public class AlumnoDaoImpl implements AlumnoDao {
@@ -22,15 +24,17 @@ public class AlumnoDaoImpl implements AlumnoDao {
     }
 
     @Override
-    public int crearAlumno(Alumno alumno) {
+    public Alumno crearAlumno(Alumno alumno) {
         int id = getIdContador();
-        Alumno a = new Alumno();
-        a.setNombre(alumno.getNombre());
-        a.setApellido(alumno.getApellido());
-        a.setDni(alumno.getDni());
-        listaAlumno.put(id, a);
-        return id;
+        alumno.setId(id);
+        listaAlumno.put(id, alumno);
+        return alumno;
     }
+
+    public List<Alumno> listarAlumnos() {
+        return new ArrayList<>(listaAlumno.values());
+    }
+
 
     @Override
     public void eliminarAlumno(Integer idAlumno) {
@@ -57,8 +61,6 @@ public class AlumnoDaoImpl implements AlumnoDao {
         }
         return alumno;
     }
-
-    // ===================== REGLAS DE NEGOCIO =====================
 
     @Override
     public void inscribirAlumno(Integer idAlumno, Integer idCarrera) {
